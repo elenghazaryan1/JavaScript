@@ -1,0 +1,10 @@
+
+function sumOfElems(arr) {
+    let sum = 0;
+    for(let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+let expenses = [50,75,100];
+console.log(sumOfElems(expenses));
