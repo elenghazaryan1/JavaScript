@@ -1,4 +1,4 @@
-class myPromise {
+class MyPromise {
   constructor(executor) {
     this.state = "pending";
     this.value = undefined;
@@ -32,12 +32,21 @@ class myPromise {
     }
   }
   then(onFulfilled, onRejected) {
-    return new myPromise((resolve, reject) => {
+    onFulfilled =
+      typeof onFulfilled === "function" ? onFulfilled : (value) => value;
+
+    onRejected =
+      typeof onRejected === "function"
+        ? onRejected
+        : (reason) => {
+            throw reason;
+          };
+    return new MyPromise((resolve, reject) => {
       if (this.state === "pending") {
         this.onFulfilledCallbacks.push(() => {
           try {
             const fulfilledFromLastPromise = onFulfilled(this.value);
-            if (fulfilledFromLastPromise instanceof myPromise) {
+            if (fulfilledFromLastPromise instanceof MyPromise) {
               fulfilledFromLastPromise.then(resolve, reject);
             } else {
               resolve(fulfilledFromLastPromise);
@@ -49,10 +58,10 @@ class myPromise {
         this.onRejectedCallbacks.push(() => {
           try {
             const rejectedFromLastPromise = onRejected(this.reason);
-            if (rejectedFromLastPromise instanceof myPromise) {
+            if (rejectedFromLastPromise instanceof MyPromise) {
               rejectedFromLastPromise.then(resolve, reject);
             } else {
-              reject(rejectedFromLastPromise);
+              resolve(rejectedFromLastPromise);
             }
           } catch (err) {
             reject(err);
@@ -87,13 +96,15 @@ class myPromise {
       }
     });
   }
+  catch(onRejected) {
+    return this.then(null, onRejected);
+  }
 }
-
 // testing code
 
 console.log("1");
 
-const promise = new myPromise((resolve) => {
+const promise = new MyPromise((resolve) => {
   console.log("2");
   resolve(5);
 });
@@ -103,3 +114,17 @@ promise.then((value) => {
 });
 
 console.log("3");
+
+new MyPromise((resolve, reject) => {
+  setTimeout(() => reject("Server down"), 300);
+})
+  .then((val) => {
+    console.log("Should not run:", val);
+  })
+  .catch((err) => {
+    console.log("Caught error:", err);
+    return "Recovered from backup";
+  })
+  .then((recoveredVal) => {
+    console.log("Chain revived:", recoveredVal);
+  });

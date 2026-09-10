@@ -24,7 +24,6 @@ fetch("https://jsonplaceholder.typicode.com/users")
     return response.json();
   })
   .then((users) => {
-    //console.log(users);
     const user = users.find((user) => user.username === "Bret");
     console.log(user);
   });
