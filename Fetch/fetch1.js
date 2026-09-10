@@ -18,7 +18,7 @@ fetch("https://jsonplaceholder.typicode.com/users")
     console.log(emails);
   });
 
-//Finds if there is user with username 'Bret' and prints that users full object
+//Finds if there is user with username '"Bret" and prints that users full object
 fetch("https://jsonplaceholder.typicode.com/users")
   .then((response) => {
     return response.json();
