@@ -116,7 +116,7 @@ promise.then((value) => {
 console.log("3");
 
 new MyPromise((resolve, reject) => {
-  setTimeout(() => reject("Server down"), 300);
+  setTimeout(() => reject("Server  down"), 300);
 })
   .then((val) => {
     console.log("Should not run:", val);
