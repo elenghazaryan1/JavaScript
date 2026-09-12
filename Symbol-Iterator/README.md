@@ -18,4 +18,4 @@ A collection of JavaScript exercises focused on **well-known Symbols** and custo
 - Primitive conversion
 - `string`, `number`, and `default` hints
 
-✨ Small exercises, deeper understanding of JavaScript internals.
+✨ Small exercises, deeper understanding of JavaScript internals .
